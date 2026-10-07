@@ -7,40 +7,37 @@
 <div class="min-h-screen bg-blue-50 flex items-center justify-center py-16">
 
 
-<div class="max-w-4xl w-full mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
+<div class="max-w-5xl w-full mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
 
 
+{{-- HEADER --}}
 
-    {{-- HEADER --}}
-
-    <div class="bg-blue-700 text-white text-center py-10 px-6">
-
-
-        <div class="w-24 h-24 mx-auto bg-white/20 rounded-full flex items-center justify-center text-5xl">
-
-            ✅
-
-        </div>
+<div class="bg-blue-700 text-white text-center py-12 px-6">
 
 
+<div class="w-28 h-28 mx-auto bg-white/20 rounded-full flex items-center justify-center text-6xl">
 
-        <h1 class="text-4xl font-extrabold mt-6">
+✅
 
-            Appointment Confirmed!
-
-        </h1>
-
+</div>
 
 
-        <p class="mt-4 text-blue-100 text-lg">
+<h1 class="text-4xl font-extrabold mt-6">
 
-            Thank you for choosing Sheby Hospital.
-            Your appointment has been successfully booked.
+Appointment Confirmed!
 
-        </p>
+</h1>
 
 
-    </div>
+<p class="mt-4 text-blue-100 text-lg">
+
+Thank you for choosing Sheby Hospital.
+Your medical appointment has been successfully registered.
+
+</p>
+
+
+</div>
 
 
 
@@ -50,439 +47,390 @@
 
 
 
-    {{-- HOSPITAL INFORMATION --}}
 
 
-    <div class="grid md:grid-cols-3 gap-5 mb-10">
+{{-- APPOINTMENT NUMBER --}}
 
 
+<div class="border-2 border-dashed border-blue-300 bg-blue-50 rounded-3xl p-8 text-center mb-10">
 
-        <div class="bg-blue-50 rounded-2xl p-6 text-center">
 
+<p class="text-gray-600">
 
-            <div class="text-4xl mb-3">
-                🏥
-            </div>
+Appointment Number
 
+</p>
 
-            <h3 class="font-bold text-blue-700 text-lg">
 
-                Sheby Hospital
+<h2 class="text-4xl font-black text-blue-700 mt-3">
 
-            </h3>
+{{ $appointment->appointment_number }}
 
+</h2>
 
-            <p class="text-gray-600">
 
-                Excellence in Healthcare
+<p class="text-sm text-gray-500 mt-3">
 
-            </p>
+Keep this number when visiting Sheby Hospital.
 
+</p>
 
-        </div>
 
+</div>
 
 
 
 
-        <div class="bg-blue-50 rounded-2xl p-6 text-center">
 
 
-            <div class="text-4xl mb-3">
-                📍
-            </div>
 
+{{-- DETAILS --}}
 
-            <h3 class="font-bold text-blue-700 text-lg">
 
-                Location
+<div class="bg-gray-50 rounded-3xl p-8">
 
-            </h3>
 
+<h2 class="text-2xl font-bold text-blue-700 mb-8">
 
-            <p class="text-gray-600">
+Appointment Details
 
-                Dar es Salaam, Tanzania
+</h2>
 
-            </p>
 
 
-        </div>
+<div class="grid md:grid-cols-2 gap-8">
 
 
 
+<div>
 
+<p class="text-gray-500 text-sm">
+Patient Name
+</p>
 
-        <div class="bg-blue-50 rounded-2xl p-6 text-center">
+<p class="font-bold text-lg">
+{{ $appointment->patient_name }}
+</p>
 
+</div>
 
-            <div class="text-4xl mb-3">
-                ☎
-            </div>
 
 
-            <h3 class="font-bold text-blue-700 text-lg">
 
-                Emergency
 
-            </h3>
+<div>
 
+<p class="text-gray-500 text-sm">
+Department
+</p>
 
-            <p class="text-gray-600">
+<p class="font-bold text-lg">
 
-                +255 766822536
+{{ $appointment->department->name ?? 'N/A' }}
 
-            </p>
+</p>
 
+</div>
 
-        </div>
 
 
 
-    </div>
 
+<div>
 
+<p class="text-gray-500 text-sm">
+Doctor
+</p>
 
+<p class="font-bold text-lg">
 
+{{ $appointment->doctor->name ?? 'N/A' }}
 
+</p>
 
-    {{-- APPOINTMENT NUMBER --}}
+</div>
 
 
-    <div class="border-2 border-dashed border-blue-300 bg-blue-50 rounded-3xl p-6 text-center mb-10">
 
 
-        <p class="text-gray-600">
 
-            Appointment ID
+<div>
 
-        </p>
+<p class="text-gray-500 text-sm">
+Phone
+</p>
 
+<p class="font-bold text-lg">
 
+{{ $appointment->phone }}
 
-        <h2 class="text-3xl font-extrabold text-blue-700 mt-2">
+</p>
 
-            {{ $appointment->appointment_number }}
+</div>
 
-        </h2>
 
 
-        <p class="mt-3 text-sm text-gray-500">
 
-            Please keep this number for hospital reception.
 
-        </p>
+<div>
 
+<p class="text-gray-500 text-sm">
+Appointment Date
+</p>
 
-    </div>
+<p class="font-bold text-lg">
 
+{{ $appointment->appointment_date }}
 
+</p>
 
+</div>
 
 
 
-    {{-- DETAILS --}}
 
 
-    <div class="bg-gray-50 rounded-3xl p-8">
+<div>
 
+<p class="text-gray-500 text-sm">
+Appointment Time
+</p>
 
-        <h2 class="text-2xl font-bold text-blue-700 mb-8">
+<p class="font-bold text-lg">
 
-            Appointment Details
+{{ $appointment->appointment_time }}
 
-        </h2>
+</p>
 
+</div>
 
 
 
 
-        <div class="grid md:grid-cols-2 gap-8">
 
+<div>
 
+<p class="text-gray-500 text-sm">
+Status
+</p>
 
-            <div>
 
-                <p class="text-gray-500 text-sm">
+<span class="inline-block mt-2 px-5 py-2 rounded-full bg-yellow-100 text-yellow-700 font-semibold">
 
-                    Patient Name
+{{ ucfirst($appointment->status) }}
 
-                </p>
+</span>
 
 
-                <p class="font-bold text-lg">
+</div>
 
-                    {{ $appointment->patient_name }}
 
-                </p>
 
 
-            </div>
 
+<div class="md:col-span-2">
 
 
+<p class="text-gray-500 text-sm">
 
+Symptoms / Reason
 
-            <div>
+</p>
 
-                <p class="text-gray-500 text-sm">
 
-                    Department
+<p class="font-bold text-lg">
 
-                </p>
+{{ $appointment->symptoms ?? $appointment->disease }}
 
+</p>
 
-                <p class="font-bold text-lg">
 
-                    {{ $appointment->department->name ?? 'N/A' }}
+</div>
 
-                </p>
 
 
-            </div>
 
+</div>
 
 
+</div>
 
 
-            <div>
 
-                <p class="text-gray-500 text-sm">
 
-                    Doctor
 
-                </p>
 
 
-                <p class="font-bold text-lg">
 
-                    {{ $appointment->doctor->name ?? 'N/A' }}
 
-                </p>
+{{-- QR CODE --}}
 
 
-            </div>
+<div class="mt-12 bg-blue-50 rounded-3xl p-10 text-center">
 
 
+<h2 class="text-3xl font-bold text-blue-700">
 
+Hospital Verification QR
 
+</h2>
 
-            <div>
 
-                <p class="text-gray-500 text-sm">
 
-                    Appointment Date
+<p class="text-gray-600 mt-3">
 
-                </p>
+Present this QR code at Sheby Hospital reception.
 
+</p>
 
-                <p class="font-bold text-lg">
 
-                    {{ $appointment->appointment_date }}
 
-                </p>
 
 
-            </div>
+<div class="mt-8 bg-white rounded-3xl shadow-lg p-8 inline-block">
 
 
+<img
 
+src="{{ route('appointments.qr',$appointment->id) }}"
 
+class="w-72 h-72 mx-auto"
 
-            <div>
+alt="Appointment QR Code"
 
-                <p class="text-gray-500 text-sm">
 
-                    Appointment Time
+>
 
-                </p>
 
+</div>
 
-                <p class="font-bold text-lg">
 
-                    {{ $appointment->appointment_time }}
 
-                </p>
 
 
-            </div>
 
+<div class="mt-8 flex flex-col md:flex-row justify-center gap-5">
 
 
+<a
 
+href="{{ route('appointments.qr',$appointment->id) }}"
 
-            <div>
+download="Sheby-Hospital-Appointment-QR.svg"
 
-                <p class="text-gray-500 text-sm">
+class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold">
 
-                    Status
 
-                </p>
+⬇ Download QR Code
 
 
-                <span class="inline-block mt-1 px-4 py-1 rounded-full bg-yellow-100 text-yellow-700 font-semibold">
+</a>
 
-                    {{ ucfirst($appointment->status) }}
 
-                </span>
 
 
-            </div>
 
+<button
 
+onclick="window.print()"
 
+class="border border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-full font-semibold">
 
 
-            <div class="md:col-span-2">
+🖨 Print Appointment
 
-                <p class="text-gray-500 text-sm">
 
-                    Reason / Symptoms
+</button>
 
-                </p>
 
+</div>
 
-                <p class="font-bold text-lg">
 
-                    {{ $appointment->symptoms }}
 
-                </p>
 
+</div>
 
-            </div>
 
 
 
 
-        </div>
 
 
-    </div>
 
 
+{{-- BUTTONS --}}
 
 
+<div class="mt-12 flex flex-col md:flex-row justify-center gap-5">
 
 
-    {{-- QR CODE --}}
+<a
 
+href="/"
 
-    <div class="mt-10 bg-blue-50 rounded-3xl p-8 text-center">
+class="bg-blue-700 hover:bg-blue-800 text-white px-10 py-3 rounded-full font-semibold text-center">
 
 
-        <h2 class="text-2xl font-bold text-blue-700">
+Back Home
 
-            Patient QR Code
 
-        </h2>
+</a>
 
 
 
-        <p class="text-gray-600 mt-3">
 
-            Present this QR code at Sheby Hospital reception.
+<a
 
-        </p>
+href="{{ route('appointments.create') }}"
 
+class="border-2 border-blue-700 text-blue-700 hover:bg-blue-50 px-10 py-3 rounded-full font-semibold text-center">
 
 
+Book Another Appointment
 
 
-        <div class="mt-6 bg-white rounded-3xl shadow p-6 inline-block">
+</a>
 
 
-            <img
 
-            src="{{ route('appointments.qr',$appointment->id) }}"
+</div>
 
-            class="w-64 h-64"
 
-            alt="Patient Appointment QR Code">
 
 
-        </div>
 
 
 
-        <p class="mt-4 text-sm text-gray-500">
 
-            Scan this QR code to verify appointment details.
 
-        </p>
+{{-- FOOTER CONTACT --}}
 
 
+<div class="mt-12 text-center text-gray-500">
 
-    </div>
 
+<p>
 
+📍 Dar es Salaam, Tanzania
 
+</p>
 
 
+<p>
 
+☎ Emergency: +255 766822536
 
+</p>
 
-    {{-- ACTION BUTTONS --}}
 
+<p>
 
-    <div class="mt-10 flex flex-col md:flex-row gap-4 justify-center">
+✉ info@shebyhospital.com
 
+</p>
 
 
-        <a href="/"
-
-        class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold">
-
-
-            Back Home
-
-
-        </a>
-
-
-
-
-
-        <a href="{{ route('appointments.create') }}"
-
-        class="border border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-full font-semibold">
-
-
-            Book Another Appointment
-
-
-        </a>
-
-
-
-    </div>
-
-
-
-
-
-
-
-    {{-- CONTACT --}}
-
-
-    <div class="mt-12 text-center text-gray-500">
-
-
-        📍 Dar es Salaam, Tanzania
-
-        <br>
-
-
-        ☎ Emergency: +255 766822536
-
-        <br>
-
-
-        ✉ info@shebyhospital.com
-
-
-    </div>
-
+</div>
 
 
 
@@ -494,7 +442,6 @@
 
 
 </div>
-
 
 
 @endsection

@@ -6,21 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+
     /**
      * Run the migrations.
      */
-   public function up(): void
-{
-    Schema::table('doctors', function (Blueprint $table) {
+    public function up(): void
+    {
+        Schema::table('doctors', function (Blueprint $table) {
 
-        $table->string('phone')
-              ->nullable();
+            // Phone and email already exist in doctors table.
+            // No changes required.
 
-        $table->string('email')
-              ->nullable();
+        });
+    }
 
-    });
-}
 
     /**
      * Reverse the migrations.
@@ -28,7 +27,10 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('doctors', function (Blueprint $table) {
-            //
+
+            // Nothing to remove because no columns were added.
+
         });
     }
+
 };

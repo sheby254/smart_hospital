@@ -12,6 +12,7 @@ use App\Mail\AppointmentConfirmationMail;
 
 class AppointmentController extends Controller
 {
+
     /**
      * Show Appointment Form
      */
@@ -21,6 +22,8 @@ class AppointmentController extends Controller
 
         return view('appointments.create', compact('departments'));
     }
+
+
 
     /**
      * Load Doctors by Department (AJAX)
@@ -34,6 +37,28 @@ class AppointmentController extends Controller
         return response()->json($doctors);
     }
 
+
+
+    /**
+     * Appointment Success Page
+     */
+    public function success($id)
+    {
+        $appointment = Appointment::with([
+            'doctor',
+            'department'
+        ])->findOrFail($id);
+
+
+        return view(
+            'appointments.success',
+            compact('appointment')
+        );
+    }
+
+
+
+
     /**
      * Generate Appointment QR Code
      */
@@ -44,10 +69,12 @@ class AppointmentController extends Controller
             'department'
         ])->findOrFail($id);
 
+
+
         $data = "
 SHEBY HOSPITAL
 
-Appointment ID:
+Appointment Number:
 {$appointment->appointment_number}
 
 Patient:
@@ -60,44 +87,109 @@ Department:
 {$appointment->department->name}
 
 Date:
-{$appointment->appointment_date}
+" . date(
+    'd M Y',
+    strtotime($appointment->appointment_date)
+) . "
 
 Time:
-{$appointment->appointment_time}
-";
+" . date(
+    'h:i A',
+    strtotime($appointment->appointment_time)
+) . "
+
+Status:
+" . ucfirst($appointment->status);
+
+
 
         return response(
-            QrCode::size(300)->generate($data)
-        )->header(
+            QrCode::format('svg')
+                ->size(320)
+                ->margin(2)
+                ->generate($data)
+        )
+        ->header(
             'Content-Type',
             'image/svg+xml'
+        )
+        ->header(
+            'Content-Disposition',
+            'attachment; filename="Appointment-' .
+            $appointment->appointment_number .
+            '.svg"'
         );
     }
+
+
+
 
     /**
      * Save Appointment
      */
     public function store(Request $request)
     {
+
+
         $validated = $request->validate([
 
-            'doctor_id' => 'required|exists:doctors,id',
 
-            'department_id' => 'required|exists:departments,id',
+            'doctor_id' => [
+                'required',
+                'exists:doctors,id'
+            ],
 
-            'patient_name' => 'required|string|max:255',
 
-            'phone' => 'required|string|max:20',
+            'department_id' => [
+                'required',
+                'exists:departments,id'
+            ],
 
-            'email' => 'nullable|email',
 
-            'appointment_date' => 'required|date',
+            'patient_name' => [
+                'required',
+                'string',
+                'max:255'
+            ],
 
-            'appointment_time' => 'required|string',
 
-            'symptoms' => 'required|string|max:1000',
+            'phone' => [
+                'required',
+                'string',
+                'max:20'
+            ],
+
+
+            'email' => [
+                'nullable',
+                'email'
+            ],
+
+
+            'appointment_date' => [
+                'required',
+                'date'
+            ],
+
+
+            'appointment_time' => [
+                'required',
+                'string'
+            ],
+
+
+            'symptoms' => [
+                'required',
+                'string',
+                'max:1000'
+            ],
+
 
         ]);
+
+
+
+
 
         /*
         |--------------------------------------------------------------------------
@@ -105,11 +197,19 @@ Time:
         |--------------------------------------------------------------------------
         */
 
+
         $appointmentNumber =
             'SHEBY-APT-' .
             now()->format('Ymd') .
             '-' .
-            strtoupper(substr(md5(uniqid()), 0, 5));
+            strtoupper(
+                substr(md5(uniqid()),0,5)
+            );
+
+
+
+
+
 
         /*
         |--------------------------------------------------------------------------
@@ -117,31 +217,61 @@ Time:
         |--------------------------------------------------------------------------
         */
 
+
         $appointment = Appointment::create([
+
 
             'doctor_id' => $validated['doctor_id'],
 
+
             'department_id' => $validated['department_id'],
+
 
             'patient_name' => $validated['patient_name'],
 
+
             'phone' => $validated['phone'],
+
 
             'email' => $validated['email'] ?? null,
 
+
+
             'appointment_date' => $validated['appointment_date'],
 
-            'appointment_time' => $validated['appointment_time'],
+
+
+            'appointment_time' => date(
+                'H:i:s',
+                strtotime(
+                    $validated['appointment_time']
+                )
+            ),
+
+
 
             'appointment_number' => $appointmentNumber,
 
-            // Keep both fields until database is cleaned up
+
+
+            // temporary compatibility
             'disease' => $validated['symptoms'],
+
 
             'symptoms' => $validated['symptoms'],
 
+
+
             'status' => 'pending',
+
+
         ]);
+
+
+
+
+
+
 
         /*
         |--------------------------------------------------------------------------
@@ -149,20 +279,45 @@ Time:
         |--------------------------------------------------------------------------
         */
 
+
         if (!empty($appointment->email)) {
 
+
             Mail::to($appointment->email)
-                ->send(new AppointmentConfirmationMail($appointment));
+                ->send(
+                    new AppointmentConfirmationMail($appointment)
+                );
+
+
         }
+
+
+
+
+
+
 
         /*
         |--------------------------------------------------------------------------
-        | Redirect
+        | Redirect Success Page
         |--------------------------------------------------------------------------
         */
 
+
         return redirect()
-            ->route('appointments.success', $appointment->id)
-            ->with('success', 'Appointment booked successfully.');
+
+            ->route(
+                'appointments.success',
+                $appointment->id
+            )
+
+            ->with(
+                'success',
+                'Appointment booked successfully.'
+            );
+
     }
+
+
+
 }

@@ -5,11 +5,15 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Doctor;
 use App\Models\Department;
+use Illuminate\Support\Facades\DB;
+
 
 class DoctorSeeder extends Seeder
 {
+
     public function run(): void
     {
+
         $cardiology        = Department::where('name', 'Cardiology')->first();
         $neurology         = Department::where('name', 'Neurology')->first();
         $pediatrics        = Department::where('name', 'Pediatrics')->first();
@@ -19,9 +23,18 @@ class DoctorSeeder extends Seeder
         $laboratory        = Department::where('name', 'Laboratory')->first();
         $dental            = Department::where('name', 'Dental Care')->first();
 
+
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
         Doctor::truncate();
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+
+
         Doctor::insert([
+
 
             [
                 'department_id' => $cardiology->id,
@@ -37,6 +50,7 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
+
             [
                 'department_id' => $cardiology->id,
                 'name' => 'Dr. Dorine John',
@@ -50,6 +64,7 @@ class DoctorSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
 
             [
                 'department_id' => $neurology->id,
@@ -65,6 +80,7 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
+
             [
                 'department_id' => $pediatrics->id,
                 'name' => 'Dr. Anna Peter',
@@ -78,6 +94,7 @@ class DoctorSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
 
             [
                 'department_id' => $orthopedics->id,
@@ -93,6 +110,7 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
+
             [
                 'department_id' => $internalMedicine->id,
                 'name' => 'Dr. Diana Joseph',
@@ -106,6 +124,7 @@ class DoctorSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
 
             [
                 'department_id' => $emergency->id,
@@ -121,6 +140,7 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
+
             [
                 'department_id' => $laboratory->id,
                 'name' => 'Dr. Omega Charles',
@@ -134,6 +154,7 @@ class DoctorSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
+
 
             [
                 'department_id' => $dental->id,
@@ -149,6 +170,8 @@ class DoctorSeeder extends Seeder
                 'updated_at' => now(),
             ],
 
+
         ]);
+
     }
 }
